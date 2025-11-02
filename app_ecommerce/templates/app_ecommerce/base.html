@@ -40,7 +40,15 @@
                   {% endif %}
                   Perfil ({{ user.username }})
                 </a>
-                <a class="nav-link" href="{% url 'cuentas:logout' %}">Cerrar sesión</a>
+                <form action="{% url 'cuentas:logout' %}" method="post" style="display:inline;">
+                  {% csrf_token %}
+                  <button type="submit" class="nav-link" style="color: white; text-decoration: none;">
+                    Cerrar sesión
+                  </button>
+                </form>
+                
+                
+                <!-- <a class="nav-link" href="{% url 'cuentas:logout' %}">Cerrar sesión</a> -->
               {% else %}
                 <a class="nav-link" href="{% url 'cuentas:login' %}">Ingresar</a>
                 <a class="nav-link" href="{% url 'cuentas:registro' %}">Registrarse</a>
