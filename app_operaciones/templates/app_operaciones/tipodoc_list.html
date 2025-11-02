@@ -1,0 +1,35 @@
+{% extends 'app_ecommerce/base.html' %}
+{% block title %}Tipos de Documento{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>Tipos de Documento</h2>
+  <a href="{% url 'app_operaciones:tipodoc_crear' %}" class="btn btn-primary mb-2">Nuevo TipoDoc</a>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for td in tiposdoc %}
+      <tr>
+        <td>{{ td.nombre }}</td>
+        <td>{{ td.descripcion }}</td>
+        <td>
+          <a href="{% url 'app_operaciones:tipodoc_editar' td.id %}" class="btn btn-sm btn-warning">Editar</a>
+          <a href="{% url 'app_operaciones:tipodoc_eliminar' td.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="3">No hay tipos de documento.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

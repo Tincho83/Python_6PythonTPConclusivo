@@ -1,0 +1,47 @@
+{% extends 'app_ecommerce/base.html' %}
+{% block title %}Pedidos{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>Pedidos</h2>
+  <a href="{% url 'app_operaciones:pedido_crear' %}" class="btn btn-primary mb-2">Nuevo Pedido</a>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nro Pedido</th>
+        <th>Cliente</th>
+        <th>Fecha Pedido</th>
+        <th>Productos</th>
+        <th>Total</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for ped in pedidos %}
+      <tr>
+        <td>{{ ped.cod_ped }}</td>
+        <td>{{ ped.cliente }}</td>
+        <td>{{ ped.fecha_pedido|date:"d-m-Y H:i" }}</td>
+        <td>
+          <ul>
+            {% for det in ped.detallepedido_set.all %}
+            <li>{{ det.producto.nombre }} x {{ det.cantidad }}: ${{ det.subtotal }}</li>
+            {% endfor %}
+          </ul>
+        </td>
+        <td>${{ ped.total }}</td>
+        <td>
+          <a href="{% url 'app_operaciones:pedido_editar' ped.id %}" class="btn btn-sm btn-warning">Editar</a>
+          <a href="{% url 'app_operaciones:pedido_eliminar' ped.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="6">No hay pedidos registrados.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'app_ecommerce/base.html' %}
+{% load static %}
+
+{% block title %}Registrar Documento{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm p-4 mx-auto" style="max-width: 600px;">
+  <h3 class="text-center mb-4">Registrar Documento</h3>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div class="text-center mt-3">
+      <button type="submit" class="btn btn-success px-4">Guardar</button>
+      <a href="{% url 'app_ecommerce:index' %}" class="btn btn-secondary">Cancelar</a>
+    </div>
+    <div class="text-center mt-3">
+        <a href="{% url 'app_operaciones:tipodoc_listar' %}" class="btn btn-secondary">Ver Documentos</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

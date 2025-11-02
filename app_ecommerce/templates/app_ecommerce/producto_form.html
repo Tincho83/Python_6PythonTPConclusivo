@@ -1,0 +1,36 @@
+{% extends 'app_ecommerce/base.html' %}
+{% load static %}
+{% block title %}Formulario Producto{% endblock %}
+{% block content %}
+<div class="card shadow-sm p-4 mx-auto" style="max-width: 800px;">
+  <h3 class="text-center mb-4">{% if form.instance.pk %}Editar Producto{% else %}Crear Producto{% endif %}</h3>
+  <form method="post" enctype="multipart/form-data" class="card shadow-sm p-4 mx-auto" style="max-width: 600px;">
+    {% csrf_token %}
+    <h3 class="text-center mb-4">{% if form.instance.pk %}Editar producto{% else %}Nuevo producto{% endif %}</h3>
+  
+    {{ form.as_p }}
+  
+    {% if form.instance.pk %}
+      <div class="mb-3 text-center">
+        <p class="fw-bold">Imagen actual:</p>
+        {% if form.instance.imagen %}
+          <img src="{{ form.instance.imagen.url }}" alt="Imagen actual" class="img-thumbnail" width="200">
+        {% elif form.instance.imagen_url %}
+          <img src="{{ form.instance.imagen_url }}" alt="Imagen actual" class="img-thumbnail" width="200">
+        {% else %}
+          <img src="{% static 'no_image.jpg' %}" alt="Sin imagen" class="img-thumbnail" width="200">
+        {% endif %}
+        <label for="fecha_publicacion" class="form-label fw-bold">Fecha de publicación:</label>
+        <input type="text" id="fecha_publicacion" class="form-control" value="{{ form.instance.fecha_publicacion|date:'d/m/Y' }}" disabled>
+  </div>
+      </div>
+    {% endif %}
+      
+    <div class="text-center mt-3">
+      <button class="btn btn-success px-4" type="submit">Guardar</button>
+      <a href="{% url 'app_ecommerce:producto_listar' %}" class="btn btn-secondary">Cancelar</a>
+    </div>
+  </form>
+  
+</div>
+{% endblock %}

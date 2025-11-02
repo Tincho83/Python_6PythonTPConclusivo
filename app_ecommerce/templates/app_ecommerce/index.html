@@ -1,0 +1,35 @@
+{% extends 'app_ecommerce/base.html' %}
+{% load static %}
+{% block title %}Inicio{% endblock %}
+
+{% block content %}
+  <div class="text-center mb-5">
+    <h1 class="fw-bold">Bienvenido a mi Ecommerce</h1>
+    <p class="text-muted">Selecciona una opción del menú superior o explora nuestros productos destacados.</p>
+  </div>
+
+  <h2 class="text-center mb-4">🛍️ Nuestros Productos</h2>
+  <div class="row">
+    {% for p in productos %}
+      <div class="col-md-3 mb-4">
+        <div class="card h-100 shadow-sm border-0">
+          {% if p.imagen_final %}
+            <img src="{{ p.imagen_final }}" class="card-img-top" alt="{{ p.nombre|escape }}">
+          {% else %}
+            <img src="{% static 'no_image.jpg' %}" class="card-img-top" alt="Sin imagen">            
+          {% endif %}
+
+          <div class="card-body text-center">
+            <h5 class="card-title">{{ p.nombre }}</h5>            
+          </div>
+          <div class="card-body text-center">
+            <p class="fw-bold fs-5 text-success">${{ p.precio }}</p>
+            <p class="card-text text-muted">{{ p.subtitulo }}</p>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-center text-muted">No hay productos cargados.</p>
+    {% endfor %}
+  </div>
+{% endblock %}

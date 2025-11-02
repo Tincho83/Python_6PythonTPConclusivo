@@ -1,0 +1,157 @@
+https://github.com/Tincho83/Python_6PythonTPIII.git
+
+
+#1.Crear Entorno Virtual
+    cd C:\Proyectos\6_Python\CursoPython\C11_TPIII_Django>
+    cd .\C11_TPIII_Django
+
+    #Powershell como Admin
+    Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+
+    #Ejecutar modulo venv para crear entorno virtual
+    python -m venv ent_virt_ecommerce
+
+
+#2.Ejecutar para activar el entorno virtual
+    cd C:\Proyectos\6_Python\CursoPython\C11_TPIII_Django>
+    ent_virt_ecommerce/Scripts/Activate
+
+    #Salir: deactivate
+
+
+#3.Instalar componentes
+    c:\proyectos\6_python\cursopython\c11_tpiii_django\ent_virt_ecommerce\scripts\python.exe -m pip install --upgrade pip
+    pip install django
+        django-admin --version
+        pip uninstall django
+
+    pip install pillow
+    pip install git
+    pip install django-ckeditor
+
+
+
+#4.Listar Requerimentos
+    pip freeze > requeriments.txt
+
+#5.Iniciar un proyecto:
+    django-admin startproject tp_ecommerce .
+
+
+#6.Iniciar una app:
+    django-admin startapp app_ecommerce
+    django-admin startapp app_cuentas
+    django-admin startapp app_paginas
+    django-admin startapp app_operaciones
+
+
+#7.Config settings.py del proyecto tp_ecommerce. Agregar app "app_ecommerce"
+# Application definition
+
+INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'app_ecommerce',
+]
+
+#8.Crear urls.py dentro de la app "app_ecommerce"
+
+
+#9.en "tp_ecommerce", settings.py, modificar:
+    LANGUAGE_CODE = "es"
+
+#9. Iniciar el proyecto
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
+
+#10.Crear DB
+python manage.py migrate
+
+#11.Codigo. Template > URL > View (Logica) o viceversa
+
+#11a.En la app_ecommerce, crear carpeta "templates" y luego "index.html"
+#11b.En "index.html" insertar codigo base de html
+
+#11c.En proyecto "tp_ecommerce" modificar "settings.py":
+    En tag TEMPLATES, debe estar "APP_DIRS: True"
+
+#11d.Dentro de la app_ecommerce crear/modificar "views.py"
+    from django.shortcuts import render, redirect   
+
+    def index(request):        
+        return render(request, 'app_ecommerce/index.html')
+
+#11e.Dentro de la app_ecommerce crear/modificar el archivo urls.py
+    from django.urls import path
+    from . import views
+
+    urlpatterns = [
+        path('', views.index, name='index'),
+        path('cliente/', views.cliente, name='cliente'),
+        path('producto/', views.producto, name='producto'),
+        path('pedido/', views.pedido, name='pedido'),
+        path('categoria/', views.categoria, name='categoria'),
+        path('buscar/', views.buscar, name='buscar'),
+    ]
+
+
+#11f.Dentro del proyecto "tp_ecommerce", modificar urls.py
+    from django.contrib import admin
+    from django.urls import path, include
+
+    urlpatterns = [
+        path('admin/', admin.site.urls),
+        path('', include('app_ecommerce.urls')),
+    ]
+
+
+#11g.Dentro de la app_ecommerce crear/modificar el archivo models.py
+    from django.db import models
+
+    class Cliente(models.Model):
+        nombre = models.CharField(max_length=51)
+        apellido = models.CharField(max_length=51)
+        tipodoc = models.CharField(max_length=6)
+        nrodoc = models.IntegerField(unique=True)
+        email = models.EmailField()
+        fecha_registro = models.DateTimeField(auto_now_add=True)
+        fecha_nacimiento = models.DateField(null=True, blank=True)
+        domicilio = models.CharField(max_length=100)
+
+        def __str__(self):
+            return f"{self.nombre} {self.apellido}"
+
+
+#12.Crear tabla segun models.py
+    python manage.py makemigrations
+    python manage.py migrate
+
+
+#13. Agregar datos
+    python manage.py shell
+    from app_ecommerce.models import categoria
+
+    categoria_1 = categoria("Radio","Radio AM FM")
+    categoria_1
+
+    categoria.objects.create(nombre="Radio", descripcion="Radio")
+
+
+#python manage.py createsuperuser
+#
+#
+#
+#
+#
+
+
+
+
+
+

@@ -1,0 +1,35 @@
+{% extends 'app_ecommerce/base.html' %}
+{% block title %}Categorías{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2>Categorías</h2>
+  <a href="{% url 'app_operaciones:categoria_crear' %}" class="btn btn-primary mb-2">Nueva Categoría</a>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for cat in categorias %}
+      <tr>
+        <td>{{ cat.nombre }}</td>
+        <td>{{ cat.descripcion }}</td>
+        <td>
+          <a href="{% url 'app_operaciones:categoria_editar' cat.id %}" class="btn btn-sm btn-warning">Editar</a>
+          <a href="{% url 'app_operaciones:categoria_eliminar' cat.id %}" class="btn btn-sm btn-danger">Eliminar</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="3">No hay categorías.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

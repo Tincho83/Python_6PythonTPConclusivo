@@ -1,0 +1,21 @@
+{% extends 'app_ecommerce/base.html' %}
+{% block title %}Pedidos{% endblock %}
+{% block content %}
+<div class="card shadow-sm p-4 mx-auto" style="max-width: 600px;">
+  <h3 class="text-center mb-4">Gestión de Pedidos</h3>
+
+  {% if messages %}
+    <div>
+      {% for message in messages %}
+        <div class="alert alert-success">{{ message }}</div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success w-100">Registrar Pedido</button>
+  </form>
+</div>
+{% endblock %}
