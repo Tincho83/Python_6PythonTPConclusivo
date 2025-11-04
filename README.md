@@ -257,8 +257,6 @@ app_cuentas
 Gestión de usuarios y perfiles extendidos (Perfil).
 Datos del usuario: nombre, apellido, email, avatar, biografía, link y fecha de cumpleaños.
 
-Licencia
-Este proyecto está bajo licencia MIT (puedes adaptarla según corresponda).
 
 Otros detalles
 Se recomienda usar Python Decimal para todas las operaciones con precios para evitar errores de redondeo.
@@ -307,10 +305,6 @@ Desarrollado por Martin Hernandez. PRoyecto eCommerce para Curso Python CoderHou
 - Formularios para ABM de cada modelo.
 - Formulario de búsqueda en la BD.
 
-
-
-
-
 Pre-requisitos:
 Python 3.8 o superior
 pip
@@ -338,73 +332,3 @@ Nota: Asegúrate de configurar correctamente MEDIA_URL y MEDIA_ROOT en settings.
 📌 Asegurate de configurar en settings.py:
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
-
-
-Notas y recomendaciones
-
-El campo total en Pedido ahora tiene max_digits=20 y decimal_places=2 para soportar precios y cantidades grandes.
-
-Se recomienda no ingresar cantidades excesivamente altas para evitar overflow en la base de datos.
-Validaciones de stock y precio se realizan al guardar un producto.
-CKEditor requiere instalación de dependencias para que funcione correctamente.
-Para producción, configurar almacenamiento de archivos estáticos y media correctamente.
-
-Módulos principales
-app_ecommerce
-Gestión de productos (Producto):
-Nombre, subtítulo, descripción enriquecida, imagen local o URL, precio, stock y categoría.
-imagen_final: devuelve URL válida de la imagen a mostrar.
-
-app_operaciones
-Gestión de pedidos (Pedido y DetallePedido):
-Relación ManyToMany entre Pedido y Producto a través de DetallePedido.
-Cálculo automático del total.
-Gestión de categorías (Categoria) y tipos de documento (TipoDoc).
-
-Formularios y vistas para ABM de cada módulo.
-app_cuentas
-Gestión de usuarios y perfiles extendidos (Perfil).
-Datos del usuario: nombre, apellido, email, avatar, biografía, link y fecha de cumpleaños.
-
-
-Otros detalles
-Se recomienda usar Python Decimal para todas las operaciones con precios para evitar errores de redondeo.
-
-Todas las plantillas usan Bootstrap 5 para diseño responsive.
-Logs y mensajes se manejan con django.contrib.messages.
-
-📌 Notas y recomendaciones
-
-Se recomienda mantener max_digits=20 y decimal_places=2 en el campo total de Pedido.
-
-Evitar cantidades extremadamente altas al registrar pedidos.
-
-Revisar configuraciones de MEDIA_ROOT y STATICFILES_DIRS antes de despliegue.
-
-En producción, configurar almacenamiento de media y archivos estáticos en un servicio como AWS S3 o Cloudinary.
-
-CKEditor requiere configuración específica si se despliega en hosting compartido.
-
-💾 Pre-requisitos
-Python 3.8 o superior
-pip y virtualenv
-Git instalado
-Conexión a internet (para dependencias y CKEditor)
-
-🌟 Autor y contribuciones
-Desarrollado por Martin Hernandez. PRoyecto eCommerce para Curso Python CoderHouse
-💬 Si querés contribuir, enviá un pull request o creá un issue en GitHub.
-
-🧭 Estado del proyecto
-
-✅ Funcionalidades principales implementadas
-
-🔄 Mejoras en progreso (gestión avanzada de stock, informes, permisos por rol)
-
-🧪 Tests unitarios planificados
-
-
-💡 “Un sistema bien documentado es un sistema fácil de mantener.”
-
-
