@@ -135,24 +135,74 @@ def pedido(request):
 
     return render(request, 'app_operaciones/pedido_form.html', {'form': form})
 
+# Si no se desea editar un pedido. En pedido_list.html, comentar el boton de edicion
+#@login_required
+#def pedido_editar(request, pk):
+#    pedido_obj = get_object_or_404(Pedido, pk=pk)
+#
+#    if request.method == "POST":
+#        form = PedidoForm(request.POST, instance=pedido_obj)
+#        if form.is_valid():
+#            pedido = form.save(commit=False)
+#            # recalcular total
+#            total = 0
+#            for detalle in pedido.detallepedido_set.all():
+#                total += detalle.subtotal
+#            pedido.total = total
+#            pedido.save()
+#            messages.success(request, f"Pedido #{pedido.cod_ped} actualizado.")
+#            return redirect('app_operaciones:pedido_listar')
+#    else:
+#        form = PedidoForm(instance=pedido_obj)
+#    return render(request, 'app_operaciones/pedido_form.html', {'form': form})
+
+
+# Si se desea editar un pedido
 @login_required
 def pedido_editar(request, pk):
     pedido_obj = get_object_or_404(Pedido, pk=pk)
+
     if request.method == "POST":
         form = PedidoForm(request.POST, instance=pedido_obj)
         if form.is_valid():
             pedido = form.save(commit=False)
-            # recalcular total
-            total = 0
-            for detalle in pedido.detallepedido_set.all():
-                total += detalle.subtotal
-            pedido.total = total
+            pedido.total = Decimal('0.00')
             pedido.save()
-            messages.success(request, f"Pedido #{pedido.cod_ped} actualizado.")
+
+            # Eliminamos los detalles anteriores
+            pedido.detallepedido_set.all().delete()
+
+            productos = form.cleaned_data['producto']
+            cantidades = request.POST.getlist('cantidad')
+
+            for i, producto in enumerate(productos):
+                cantidad = int(cantidades[i]) if i < len(cantidades) else 1
+                precio = Decimal(str(producto.precio))
+                subtotal = (precio * Decimal(cantidad)).quantize(Decimal('0.01'))
+
+                # Creamos nuevamente los detalles
+                DetallePedido.objects.create(
+                    pedido=pedido,
+                    producto=producto,
+                    cantidad=cantidad,
+                    subtotal=subtotal
+                )
+                pedido.total += subtotal
+
+            pedido.total = pedido.total.quantize(Decimal('0.01'))
+            pedido.save()
+
+            messages.success(request, f"Pedido #{pedido.cod_ped} actualizado correctamente.")
             return redirect('app_operaciones:pedido_listar')
     else:
         form = PedidoForm(instance=pedido_obj)
+
     return render(request, 'app_operaciones/pedido_form.html', {'form': form})
+
+
+
+
+
 
 @login_required
 def pedido_eliminar(request, pk):
@@ -161,7 +211,6 @@ def pedido_eliminar(request, pk):
     messages.success(request, f"Pedido #{pedido_obj.cod_ped} eliminado.")
     return redirect('app_operaciones:pedido_listar')
 # *** Pedido ***
-
 
 
 
