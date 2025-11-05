@@ -301,7 +301,6 @@ Desarrollado por Martin Hernandez. PRoyecto eCommerce para Curso Python CoderHou
 ## Cumple con:
 - Patrón MVT de Django.
 - Herencia de plantillas HTML (base.html).
-- 3 modelos: Cliente, Producto, Pedido.
 - Formularios para ABM de cada modelo.
 - Formulario de búsqueda en la BD.
 
